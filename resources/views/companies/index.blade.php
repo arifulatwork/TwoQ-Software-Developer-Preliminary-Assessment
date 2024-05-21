@@ -9,7 +9,6 @@
     <table class="company-table">
         <thead>
             <tr>
-                <th>Logo</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Website</th>
@@ -17,9 +16,31 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Company data will be dynamically inserted here -->
+            @foreach($companies as $company)
+                <tr>
+                    <td>
+                        <div style="display: flex; align-items: center;">
+                            @if($company->logo)
+                                <img src="{{ asset('storage/' . $company->logo) }}" alt="Company Logo" class="company-logo" style="margin-right: 10px;">
+                            @else
+                                <div style="width: 50px; height: 50px; background-color: #ccc; border-radius: 50%; margin-right: 10px;"></div>
+                            @endif
+                            <span>{{ $company->name }}</span>
+                        </div>
+                    </td>
+                    <td>{{ $company->email }}</td>
+                    <td>{{ $company->website }}</td>
+                    <td class="action-buttons">
+                        <a href="{{ route('companies.edit', $company->id) }}" class="edit-btn">Edit</a>
+                        <form action="{{ route('companies.destroy', $company->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="delete-btn">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 </div>
 @endsection
-

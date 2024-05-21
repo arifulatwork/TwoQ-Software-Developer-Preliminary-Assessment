@@ -22,26 +22,26 @@ class CompanyController extends Controller
 
     // Store a newly created resource in storage.
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'nullable|email',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:min_width=100,min_height=100',
-            'website' => 'nullable|url',
-        ]);
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'nullable|email',
+        'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:min_width=100,min_height=100',
+        'website' => 'nullable|url',
+    ]);
 
-        $company = new Company();
-        $company->name = $request->name;
-        $company->email = $request->email;
-        if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('logos');
-            $company->logo = $logoPath;
-        }
-        $company->website = $request->website;
-        $company->save();
-
-        return redirect()->route('companies.index')->with('success', 'Company created successfully');
+    $company = new Company();
+    $company->name = $request->name;
+    $company->email = $request->email;
+    if ($request->hasFile('logo')) {
+        $logoPath = $request->file('logo')->store('logos', 'public'); // Ensures the file is saved in storage/app/public/logos
+        $company->logo = $logoPath;
     }
+    $company->website = $request->website;
+    $company->save();
+
+    return redirect()->route('companies.index')->with('success', 'Company created successfully');
+}
 
     // Display the specified resource.
     public function show($id)
