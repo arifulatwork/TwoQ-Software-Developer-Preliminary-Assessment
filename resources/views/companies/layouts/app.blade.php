@@ -62,29 +62,24 @@
         background-color: #e0e0e0;
     }
 
-    .action-buttons {
-        display: flex;
-    }
-
-    .action-buttons button {
-        margin-right: 5px;
-        padding: 5px 10px;
+    .edit-btn, .delete-btn {
+        background: none;
         border: none;
         cursor: pointer;
+        
     }
 
     .edit-btn {
-        background-color: #4caf50;
-        color: #fff;
-        border-radius: 5px;
-        text-decoration: none;
+        
     }
 
     .delete-btn {
-        background-color: #f44336;
-        color: #fff;
-        border-radius: 5px;
-        text-decoration: none;
+        color: #ea580c;
+    }
+
+    .action-buttons {
+        display: flex;
+        align-items: center;
     }
 
     .company-logo {
