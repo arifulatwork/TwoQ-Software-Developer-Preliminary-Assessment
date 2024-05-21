@@ -59,26 +59,34 @@ class CompanyController extends Controller
 
     // Update the specified resource in storage.
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'nullable|email',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:min_width=100,min_height=100',
-            'website' => 'nullable|url',
-        ]);
+{
+    $company = Company::findOrFail($id);
+    
+    // Validate the request data
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'nullable|email|max:255',
+        'website' => 'nullable|url|max:255',
+        'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size if needed
+    ]);
 
-        $company = Company::find($id);
-        $company->name = $request->name;
-        $company->email = $request->email;
-        if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('logos');
-            $company->logo = $logoPath;
-        }
-        $company->website = $request->website;
-        $company->save();
+    // Update other fields
+    $company->name = $validatedData['name'];
+    $company->email = $validatedData['email'];
+    $company->website = $validatedData['website'];
 
-        return redirect()->route('companies.index')->with('success', 'Company updated successfully');
+    // Handle logo update if a new logo is provided
+    if ($request->hasFile('logo')) {
+        $logo = $request->file('logo');
+        $logoPath = $logo->store('logos', 'public'); // Store logo in the 'public' disk under 'logos' directory
+        $company->logo = $logoPath;
     }
+
+    // Save the company
+    $company->save();
+
+    return redirect()->route('companies.index')->with('success', 'Company updated successfully.');
+}
 
     // Remove the specified resource from storage.
     public function destroy($id)

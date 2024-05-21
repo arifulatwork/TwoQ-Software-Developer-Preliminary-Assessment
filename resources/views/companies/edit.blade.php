@@ -1,5 +1,6 @@
 @extends('companies.layouts.create')
 
+
 @section('title', 'Edit Company')
 
 @section('content')
@@ -23,7 +24,11 @@
             <div class="form-group">
                 <label class="logo-label" for="companyLogo">Logo:</label>
                 <input type="file" id="companyLogo" name="logo" onchange="previewLogo()">
-                <img id="logoPreview" src="{{ asset('storage/' . $company->logo) }}" alt="Logo Preview" style="display: block; width: 100px; height: 100px; margin-top: 10px;">
+                @if ($company->logo)
+                    <img id="logoPreview" src="{{ asset('storage/' . $company->logo) }}" alt="Logo Preview" style="display: block; width: 100px; height: 100px; margin-top: 10px;">
+                @else
+                    <img id="logoPreview" src="#" alt="Logo Preview" style="display: none; width: 100px; height: 100px; margin-top: 10px;">
+                @endif
             </div>
             <div class="form-group">
                 <label for="companyWebsite">Website:</label>
