@@ -23,6 +23,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('companies', CompanyController::class);
+    Route::get('companies/create', [CompanyController::class, 'create'])->name('companies.create');
 });
 
 
