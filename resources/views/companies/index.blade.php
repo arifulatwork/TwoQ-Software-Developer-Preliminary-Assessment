@@ -31,7 +31,7 @@
                     <td>{{ $company->email }}</td>
                     <td>{{ $company->website }}</td>
                     <td class="action-buttons">
-                        <a href="{{ route('companies.edit', $company->id) }}" class="edit-btn">Edit</a>
+                    <button onclick="window.location='{{ route('companies.edit', $company->id) }}'" class="edit-btn">Edit</button>
                         <form action="{{ route('companies.destroy', $company->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
